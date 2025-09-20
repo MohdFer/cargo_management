@@ -16,9 +16,9 @@ app.secret_key = os.environ.get("FLASK_SECRET", "cargo_secret_key")
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "3125",
+    "password": "",
     "database": "cargo_db",
-    "port": 5650  
+    "port":   
 }
 
 
