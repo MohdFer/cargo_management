@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Invoices - CargoPro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">Customer Portal</div>
+            <ul class="sidebar-nav">
+                <li><a href="{{ url_for('customer_dashboard') }}">My Shipments</a></li>
+                <li><a href="{{ url_for('customer_book_cargo') }}">Book New Cargo</a></li>
+                <li class="active"><a href="{{ url_for('customer_view_invoices') }}">View Invoices</a></li>
+                <li><a href="{{ url_for('customer_support') }}">Support</a></li>
+                <li><a href="{{ url_for('customer_profile') }}">Profile</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <h2>Welcome, {{ session.get('username') or 'Customer' }}!</h2>
+                <div class="header-icons">
+                    <span>👤</span>
+                </div>
+            </header>
+
+            <section class="dashboard-content">
+                <h3>My Invoices</h3>
+
+                {% if invoices %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Invoice #</th>
+                            <th>Tracking ID</th>
+                            <th>Recipient</th>
+                            <th>Total Amount</th>
+                            <th>Date Issued</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for inv in invoices %}
+                        <tr>
+                            <td>{{ inv.invoice_number }}</td>
+                            <td>{{ inv.tracking_id }}</td>
+                            <td>{{ inv.recipient_name }}<br><small>{{ inv.recipient_address }}</small></td>
+                            <td>₹{{ "%.2f"|format(inv.total_amount) }}</td>
+                            <td>{{ inv.issue_date.strftime("%Y-%m-%d") if inv.issue_date else '' }}</td>
+                            <td>
+                                {% if inv.payment_status == 'paid' %}
+                                    <span class="status delivered">Paid</span>
+                                {% elif inv.payment_status == 'unpaid' %}
+                                    <span class="status pending">Unpaid</span>
+                                {% elif inv.payment_status == 'overdue' %}
+                                    <span class="status cancelled">Overdue</span>
+                                {% else %}
+                                    <span class="status">{{ inv.payment_status }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if inv.payment_status == 'unpaid' %}
+                                    <a href="{{ url_for('pay_invoice', invoice_id=inv.invoice_id) }}">Pay Now</a>
+                                {% else %}
+                                    <a href="{{ url_for('download_invoice', invoice_id=inv.invoice_id) }}">Download</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                    <p>No invoices found.</p>
+                {% endif %}
+            </section>
+        </main>
+    </div>
+</body>
+</html>

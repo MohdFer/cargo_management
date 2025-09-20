@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Cargo - CargoPro</title>
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">Admin Panel</div>
+            <ul class="sidebar-nav">
+                     <li ><a href="{{ url_for('admin_dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('admin_manage_customers') }}">Manage Customers</a></li>
+                    <li><a href="{{ url_for('admin_manage_employees') }}">Manage Employees</a></li>
+                    <li class="active"><a href="{{ url_for('admin_manage_cargo') }}">Manage Cargo</a></li>
+                    <li><a href="{{ url_for('admin_track_shipments') }}">Track Shipments</a></li>
+                    <li ><a href="{{ url_for('admin_generate_reports') }}">Generate Reports</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </aside>
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <h2>Welcome, Admin!</h2>
+                <div class="header-icons">
+                    <span>🔔</span>
+                    <span>👤</span>
+                </div>
+            </header>
+            <section class="dashboard-content">
+                <h3>Manage All Cargo Shipments</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tracking ID</th>
+                            <th>Customer</th>
+                            <th>Destination</th>
+                            <th>Assigned Employee</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#BK1023</td>
+                            <td>John Doe</td>
+                            <td>New York, USA</td>
+                            <td>Ebin Sam</td>
+                            <td><span class="status shipped">Shipped</span></td>
+                            <td><a href="#">Edit</a> | <a href="#">Delete</a></td>
+                        </tr>
+                        <tr>
+                            <td>#BK1022</td>
+                            <td>Jane Smith</td>
+                            <td>London, UK</td>
+                            <td>Shahaban B</td>
+                            <td><span class="status delivered">Delivered</span></td>
+                            <td><a href="#">Edit</a> | <a href="#">Delete</a></td>
+                        </tr>
+                         <tr>
+                            <td>#BK1021</td>
+                            <td>Arif Y</td>
+                            <td>Dubai, UAE</td>
+                            <td>-</td>
+                            <td><span class="status pending">Pending</span></td>
+                            <td><a href="#">Edit</a> | <a href="#">Delete</a></td>
+                        </tr>
+                        <tr>
+                            <td>#BK1020</td>
+                            <td>Customer X</td>
+                            <td>Tokyo, Japan</td>
+                            <td>Ebin Sam</td>
+                            <td><span class="status shipped">In Transit</span></td>
+                            <td><a href="#">Edit</a> | <a href="#">Delete</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Shipments - CargoPro</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"></head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">Admin Panel</div>
+            <ul class="sidebar-nav">
+               <li ><a href="{{ url_for('admin_dashboard') }}">Dashboard</a></li>
+                    <li ><a href="{{ url_for('admin_manage_customers') }}">Manage Customers</a></li>
+                    <li ><a href="{{ url_for('admin_manage_employees') }}">Manage Employees</a></li>
+                    <li ><a href="{{ url_for('admin_manage_cargo') }}">Manage Cargo</a></li>
+                    <li class="active"><a href="{{ url_for('admin_track_shipments') }}">Track Shipments</a></li>
+                    <li ><a href="{{ url_for('admin_generate_reports') }}">Generate Reports</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </aside>
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <h2>Welcome, Admin!</h2>
+                <div class="header-icons">
+                    <span>🔔</span>
+                    <span>👤</span>
+                </div>
+            </header>
+            <section class="dashboard-content">
+                <h3>Track a Shipment</h3>
+                <div class="tracking-form">
+                    <input type="text" placeholder="Enter Tracking ID (e.g., #BK1023)">
+                    <button class="cta-button">Track</button>
+                </div>
+
+                <div class="card" id="tracking-results">
+                    <h4>Shipment Details for #BK1023</h4>
+                    <div style="padding: 10px 0;">
+                        <strong>Customer:</strong> John Doe<br>
+                        <strong>Origin:</strong> Kochi, India<br>
+                        <strong>Destination:</strong> New York, USA<br>
+                        <strong>Current Status:</strong> <span class="status shipped">In Transit</span>
+                    </div>
+
+                    <hr style="margin: 20px 0;">
+
+                    <h4>Shipment History</h4>
+                    <ul class="shipment-timeline">
+                        <li>
+                            <strong>In Transit - Departed from Hub</strong>
+                            <p>Location: Mumbai, India</p>
+                            <p class="time">September 14, 2025 - 08:30 PM</p>
+                        </li>
+                        <li>
+                            <strong>Processed at Hub</strong>
+                            <p>Location: Mumbai, India</p>
+                            <p class="time">September 13, 2025 - 11:00 AM</p>
+                        </li>
+                        <li>
+                            <strong>Picked Up</strong>
+                            <p>Location: Kochi, India</p>
+                            <p class="time">September 12, 2025 - 04:15 PM</p>
+                        </li>
+                        <li>
+                            <strong>Booking Confirmed</strong>
+                            <p>Order created by customer.</p>
+                            <p class="time">September 12, 2025 - 09:00 AM</p>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Employees - CargoPro</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">Admin Panel</div>
+            <ul class="sidebar-nav">
+                <li ><a href="{{ url_for('admin_dashboard') }}">Dashboard</a></li>
+                    <li ><a href="{{ url_for('admin_manage_customers') }}">Manage Customers</a></li>
+                    <li class="active"><a href="{{ url_for('admin_manage_employees') }}">Manage Employees</a></li>
+                    <li ><a href="{{ url_for('admin_manage_cargo') }}">Manage Cargo</a></li>
+                    <li><a href="{{ url_for('admin_track_shipments') }}">Track Shipments</a></li>
+                    <li ><a href="{{ url_for('admin_generate_reports') }}">Generate Reports</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </aside>
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <h2>Welcome, Admin!</h2>
+                <div class="header-icons">
+                    <span>🔔</span>
+                    <span>👤</span>
+                </div>
+            </header>
+            <section class="dashboard-content">
+                <h3>Manage Employee Accounts</h3>
+                <div style="margin-bottom: 20px;">
+                    <a href="#" class="cta-button">Add New Employee</a>
+                </div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Full Name</th>
+                            <th>Email Address</th>
+                            <th>Role</th>
+                            <th>Date Hired</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#EMP201</td>
+                            <td>Ebin Sam</td>
+                            <td>ebin.sam@cargopro.com</td>
+                            <td>Logistics Manager</td>
+                            <td>2024-03-12</td>
+                            <td><span class="status delivered">Active</span></td>
+                            <td><a href="#">Edit</a> | <a href="#">Deactivate</a></td>
+                        </tr>
+                        <tr>
+                            <td>#EMP202</td>
+                            <td>Shahaban B</td>
+                            <td>shahaban.b@cargopro.com</td>
+                            <td>Driver</td>
+                            <td>2024-05-20</td>
+                            <td><span class="status delivered">Active</span></td>
+                            <td><a href="#">Edit</a> | <a href="#">Deactivate</a></td>
+                        </tr>
+                        <tr>
+                            <td>#EMP203</td>
+                            <td>Mohamed Arif Y</td>
+                            <td>arif.y@cargopro.com</td>
+                            <td>Warehouse Staff</td>
+                            <td>2024-07-01</td>
+                            <td><span class="status delivered">Active</span></td>
+                            <td><a href="#">Edit</a> | <a href="#">Deactivate</a></td>
+                        </tr>
+                         <tr>
+                            <td>#EMP204</td>
+                            <td>Alex Johnson</td>
+                            <td>alex.j@cargopro.com</td>
+                            <td>Customer Support</td>
+                            <td>2023-11-15</td>
+                            <td><span class="status pending">Inactive</span></td>
+                            <td><a href="#">Edit</a> | <a href="#">Activate</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
