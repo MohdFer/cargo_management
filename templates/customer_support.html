@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Support - CargoPro</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
     <div class="dashboard-container">
         <aside class="sidebar">
             <div class="logo">Customer Portal</div>
             <ul class="sidebar-nav">
-               <li ><a href="{{ url_for('customer_dashboard') }}">My Shipments</a></li>
+                <li><a href="{{ url_for('customer_dashboard') }}">My Shipments</a></li>
                 <li><a href="{{ url_for('customer_book_cargo') }}">Book New Cargo</a></li>
-                <li > <a href="{{ url_for('customer_view_invoices') }}">View Invoices</a></li>
+                <li> <a href="{{ url_for('customer_view_invoices') }}">View Invoices</a></li>
                 <li class="active"><a href="{{ url_for('customer_support') }}">Support</a></li>
                 <li><a href="{{ url_for('customer_profile') }}">Profile</a></li>
                 <li><a href="{{ url_for('logout') }}">Logout</a></li>
@@ -30,7 +32,7 @@
             <section class="dashboard-content">
                 <h3>Submit a Support Ticket</h3>
                 <div class="login-form" style="width: auto; max-width: 800px; margin-bottom: 40px;">
-                    <form action="#" method="POST">
+                    <form action="{{ url_for('customer_support') }}" method="POST">
                         <div class="input-group">
                             <label for="subject">Subject</label>
                             <input type="text" id="subject" name="subject" required>
@@ -40,8 +42,8 @@
                             <input type="text" id="trackingId" name="trackingId">
                         </div>
                         <div class="input-group">
-                            <label for="message">Describe your issue</label>
-                            <textarea id="message" name="message" rows="5" required></textarea>
+                            <label for="description">Describe your issue</label>
+                            <textarea id="description" name="description" rows="5" required></textarea>
                         </div>
                         <button type="submit" class="cta-button">Submit Ticket</button>
                     </form>
@@ -79,4 +81,5 @@
         </main>
     </div>
 </body>
+
 </html>

@@ -271,32 +271,59 @@ def customer_view_invoices():
     return render_template("customer_view_invoices.html", invoices=invoices)
 
 
+import uuid
+
 @app.route("/customer/support", methods=["GET", "POST"])
 @login_required(role="customer")
 def customer_support():
     if request.method == "POST":
         subject = request.form.get("subject")
         description = request.form.get("description")
+        tracking_id = request.form.get("trackingId")
+
         conn = get_db_connection()
         cursor = conn.cursor()
+
         try:
             # Get customer_id from customers table using logged-in user's id
-            cursor.execute("SELECT id FROM customers WHERE user_id=%s", (session.get("user_id"),))
+            cursor.execute("SELECT customer_id FROM customers WHERE user_id=%s", (session.get("user_id"),))
             customer_row = cursor.fetchone()
+
             if customer_row:
                 customer_id = customer_row[0]
-                cursor.execute("""INSERT INTO support_tickets (ticket_number, customer_id, subject, description, status, category) VALUES (%s,%s,%s,%s,%s,%s)""", ("TKT"+str(uuid.uuid4())[:6], customer_id, subject, description, "open", "general_inquiry"))
+
+                booking_id = None
+                if tracking_id:  
+                    # Try to match tracking ID with cargo_bookings
+                    cursor.execute("SELECT booking_id FROM cargo_bookings WHERE tracking_id=%s", (tracking_id,))
+                    booking = cursor.fetchone()
+                    if booking:
+                        booking_id = booking[0]
+
+                ticket_number = "TKT-" + str(uuid.uuid4())[:6].upper()
+
+                cursor.execute("""
+                    INSERT INTO support_tickets 
+                    (ticket_number, customer_id, booking_id, subject, description, category, status) 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)
+                """, (ticket_number, customer_id, booking_id, subject, description, "general_inquiry", "open"))
+
                 conn.commit()
-                flash("Support ticket created", "success")
+                flash("Support ticket created successfully!", "success")
+
             else:
                 flash("Customer not found.", "danger")
+
         except Error as e:
             conn.rollback()
             flash(f"Error creating ticket: {e}", "danger")
         finally:
             cursor.close()
             conn.close()
+
     return render_template("customer_support.html")
+
+
 
 
 @app.route("/customer/profile")
