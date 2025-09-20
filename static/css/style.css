@@ -339,6 +339,11 @@ tr:hover {
     box-shadow: 0 2px 4px rgba(27, 59, 111, 0.3);
 }
 
+.status.out_for_delivery { 
+    background: linear-gradient(135deg, #690048 0%, #670079 100%);
+    box-shadow: 0 2px 4px rgba(0, 105, 92, 0.3);
+}
+
 .status.delivered { 
     background: linear-gradient(135deg, #00695C 0%, #00796B 100%);
     box-shadow: 0 2px 4px rgba(0, 105, 92, 0.3);

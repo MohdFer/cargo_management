@@ -164,12 +164,21 @@ def customer_dashboard():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("""
-    SELECT cb.* 
-    FROM cargo_bookings cb
-    JOIN customers c ON cb.customer_id = c.customer_id
-    WHERE c.user_id = %s
-    ORDER BY cb.booking_date DESC
-""", (user_id,))
+        SELECT cb.*, tu.status AS latest_status, tu.update_timestamp
+        FROM cargo_bookings cb
+        JOIN customers c ON cb.customer_id = c.customer_id
+        LEFT JOIN (
+            SELECT booking_id, status, update_timestamp
+            FROM tracking_updates
+            WHERE (booking_id, update_timestamp) IN (
+                SELECT booking_id, MAX(update_timestamp)
+                FROM tracking_updates
+                GROUP BY booking_id
+            )
+        ) tu ON cb.booking_id = tu.booking_id
+        WHERE c.user_id = %s
+        ORDER BY cb.booking_date DESC
+    """, (user_id,))
     shipments = cursor.fetchall()
     cursor.close()
     conn.close()

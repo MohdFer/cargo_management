@@ -50,7 +50,11 @@
                         <td>{{ shipment.tracking_id }}</td>
                         <td>{{ shipment.recipient_address }}</td>
                         <td>{{ shipment.booking_date.strftime('%Y-%m-%d') }}</td>
-                        <td><span class="status {{ shipment.status }}">{{ shipment.status.replace('_', ' ')|title }}</span></td>
+                        <td>
+                            <span class="status {{ shipment.latest_status if shipment.latest_status else shipment.status }}">
+                                {{ (shipment.latest_status if shipment.latest_status else shipment.status).replace('_', ' ')|title }}
+                            </span>
+                        </td>
                         <td><a href="#">Download</a></td>
                     </tr>
                     {% else %}
