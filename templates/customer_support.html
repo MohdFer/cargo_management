@@ -61,20 +61,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>#TKT-005</td>
-                            <td>Delayed Shipment</td>
-                            <td>2025-09-02</td>
-                            <td><span class="status shipped">In Progress</span></td>
-                            <td><a href="#">View</a></td>
-                        </tr>
-                        <tr>
-                            <td>#TKT-002</td>
-                            <td>Billing Inquiry</td>
-                            <td>2025-08-15</td>
-                            <td><span class="status delivered">Closed</span></td>
-                            <td><a href="#">View</a></td>
-                        </tr>
+                        {% if tickets and tickets|length > 0 %}
+                            {% for ticket in tickets %}
+                                <tr>
+                                    <td>{{ ticket.ticket_number }}</td>
+                                    <td>{{ ticket.subject }}</td>
+                                    <td>{{ ticket.created_at.strftime('%Y-%m-%d') if ticket.created_at else '' }}</td>
+                                    <td>
+                                        <span class="status {{ 'shipped' if ticket.status == 'open' else 'delivered' }}">
+                                            {{ ticket.status|capitalize }}
+                                        </span>
+                                    </td>
+                                    <td><a href="#">View</a></td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" style="text-align:center;">No support tickets found.</td>
+                            </tr>
+                        {% endif %}
                     </tbody>
                 </table>
             </section>

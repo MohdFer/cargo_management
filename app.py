@@ -276,13 +276,15 @@ import uuid
 @app.route("/customer/support", methods=["GET", "POST"])
 @login_required(role="customer")
 def customer_support():
+    tickets = []
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    customer_id = None
+
     if request.method == "POST":
         subject = request.form.get("subject")
         description = request.form.get("description")
         tracking_id = request.form.get("trackingId")
-
-        conn = get_db_connection()
-        cursor = conn.cursor()
 
         try:
             # Get customer_id from customers table using logged-in user's id
@@ -290,15 +292,15 @@ def customer_support():
             customer_row = cursor.fetchone()
 
             if customer_row:
-                customer_id = customer_row[0]
+                customer_id = customer_row["customer_id"] if isinstance(customer_row, dict) else customer_row[0]
 
                 booking_id = None
-                if tracking_id:  
+                if tracking_id:
                     # Try to match tracking ID with cargo_bookings
                     cursor.execute("SELECT booking_id FROM cargo_bookings WHERE tracking_id=%s", (tracking_id,))
                     booking = cursor.fetchone()
                     if booking:
-                        booking_id = booking[0]
+                        booking_id = booking["booking_id"] if isinstance(booking, dict) else booking[0]
 
                 ticket_number = "TKT-" + str(uuid.uuid4())[:6].upper()
 
@@ -317,11 +319,21 @@ def customer_support():
         except Error as e:
             conn.rollback()
             flash(f"Error creating ticket: {e}", "danger")
-        finally:
-            cursor.close()
-            conn.close()
 
-    return render_template("customer_support.html")
+    # Always get customer_id for fetching tickets
+    if not customer_id:
+        cursor.execute("SELECT customer_id FROM customers WHERE user_id=%s", (session.get("user_id"),))
+        customer_row = cursor.fetchone()
+        if customer_row:
+            customer_id = customer_row["customer_id"] if isinstance(customer_row, dict) else customer_row[0]
+
+    if customer_id:
+        cursor.execute("SELECT * FROM support_tickets WHERE customer_id=%s ORDER BY created_at DESC", (customer_id,))
+        tickets = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+    return render_template("customer_support.html", tickets=tickets)
 
 
 
