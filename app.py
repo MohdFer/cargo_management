@@ -133,6 +133,7 @@ def login():
             session["user_id"] = user["user_id"]  # FIXED (your table uses user_id, not id)
             session["username"] = user["username"]
             session["role"] = user["role"]
+            session["full_name"] = user["full_name"]
             flash("Logged in successfully", "success")
 
             # Redirect based on role
