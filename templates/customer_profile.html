@@ -23,7 +23,7 @@
         </aside>
         <main class="dashboard-main">
             <header class="dashboard-header">
-                <h2>Welcome, {{ profile.fullname or profile.name or 'Customer' }}!</h2>
+                <h2>Welcome, {{ session.get('username') or 'Customer' }}!</h2>
                 <div class="header-icons">
                     <span>👤</span>
                 </div>
